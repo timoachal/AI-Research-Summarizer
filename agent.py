@@ -108,6 +108,26 @@ class ResearchPaperSummarizer:
             return ""
         return str(content)
 
+    def transcribe_audio(
+        self,
+        audio_bytes: bytes,
+        filename: str = "question.wav",
+        mime_type: str = "audio/wav",
+        language: str = "en",
+    ) -> str:
+        """Transcribe spoken audio with Groq Whisper."""
+        if not audio_bytes:
+            raise ValueError("No audio was provided for transcription.")
+
+        transcription = self.client.audio.transcriptions.create(
+            model="whisper-large-v3",
+            file=(filename, audio_bytes, mime_type),
+            language=language,
+            response_format="json",
+            temperature=0,
+        )
+        return transcription.text.strip()
+
     def extract_text_from_pdf(self, pdf_file: Any) -> PaperMetadata:
         """
         Extract text and metadata from PDF file.

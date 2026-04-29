@@ -268,6 +268,9 @@ def initialize_session_state():
     if "history" not in st.session_state:
         st.session_state.history = []
 
+    if "qa_question" not in st.session_state:
+        st.session_state.qa_question = ""
+
 
 initialize_session_state()
 
@@ -336,6 +339,20 @@ def safe_ask_question(question: str):
         st.warning(str(error))
     except Exception as error:
         st.error(f"Error answering question: {error}")
+    return None
+
+
+def safe_transcribe_audio(audio_file):
+    """Transcribe an audio question with Groq Whisper."""
+    try:
+        return st.session_state.summarizer.transcribe_audio(
+            audio_bytes=audio_file.getvalue(),
+            filename=audio_file.name or "question.wav",
+            mime_type=getattr(audio_file, "type", "audio/wav") or "audio/wav",
+            language="en",
+        )
+    except Exception as error:
+        st.error(f"Error transcribing audio: {error}")
     return None
 
 
@@ -710,11 +727,24 @@ else:
                 "The AI will answer based on the paper content."
             )
             
+            voice_question = st.audio_input("Speak your question")
+
+            if voice_question is not None:
+                st.audio(voice_question.getvalue(), format=voice_question.type or "audio/wav")
+                if st.button("Transcribe Voice Question", use_container_width=True):
+                    with st.spinner("Transcribing voice question..."):
+                        transcript = safe_transcribe_audio(voice_question)
+                        if transcript:
+                            st.session_state.qa_question = transcript
+                            st.success("Voice question transcribed")
+                            st.rerun()
+
             # Question input
             question = st.text_area(
                 "Your Question:",
                 placeholder="Type a question for the AI agent, for example: What problem does this paper solve, what method was used, or what are the main limitations?",
-                height=100
+                height=100,
+                key="qa_question"
             )
             
             col1, col2 = st.columns([3, 1])
