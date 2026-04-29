@@ -1,8 +1,3 @@
-"""
-Research Paper Summarizer - Streamlit Application
-A professional AI agent for efficiently summarizing research papers using Groq LLM.
-"""
-
 import os
 import sys
 import secrets
