@@ -120,7 +120,7 @@ AI summarizeer/
 ### 1. Clone or open the project folder
 
 ```powershell
-git clone https://github.com/timoachal/AI-Research-Summarize
+git clone https://github.com/timoachal/AI-Research-Summarize.git
 ```
 
 ### 2. Install dependencies
