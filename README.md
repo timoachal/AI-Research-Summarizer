@@ -86,17 +86,10 @@ This makes the app more accessible and faster to use during reading sessions.
 
 ### 5. Token Guardrails
 
-To reduce the risk of anonymous visitors burning your Groq API credits, the app assigns each user an anonymous key and enforces a per-user token limit.
-
 Current default:
 
 - `7000` tokens per anonymous user
 
-Important note:
-
-- This is a lightweight product safeguard, not hard security.
-- A determined user could still bypass it by forcing a new anonymous identity.
-- For production-grade protection, use a backend service, authentication, and server-side rate limiting.
 
 ## Screens In The App
 
@@ -127,7 +120,7 @@ AI summarizeer/
 ### 1. Clone or open the project folder
 
 ```powershell
-cd "C:\Users\HP\Desktop\AI summarizeer"
+git clone https://github.com/timoachal/AI-Research-Summarize
 ```
 
 ### 2. Install dependencies
@@ -155,10 +148,6 @@ Create a `.env` file in the project root:
 ```env
 GROQ_API_KEY=your-api-key-here
 ```
-
-### Option 3: In-app entry
-
-If the key is not found, the app shows a `Connect Groq API` input so you can paste it directly into the UI.
 
 ## Run The App
 
@@ -219,23 +208,6 @@ From there, the transcript is treated exactly like a typed question.
 
 Scanned PDFs or poorly encoded PDFs may produce weaker extraction results unless OCR is added in a future version.
 
-## Known Limitations
-
-- Anonymous quota tracking is local and lightweight
-- Session history is not a permanent database
-- Some research PDFs extract text imperfectly
-- Very large or complex papers may lose nuance because only excerpts are sent to the LLM
-- The current app does not perform OCR for image-only PDFs
-
-## Future Improvements
-
-- Proper backend authentication and server-side quota enforcement
-- Persistent database-backed usage tracking
-- OCR support for scanned PDFs
-- Better citation-aware answer generation
-- Section-aware paper chunking for higher fidelity summaries
-- Admin dashboard for token usage and analytics
-- Multi-paper workspace support
 
 ## Troubleshooting
 
