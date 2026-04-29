@@ -1,8 +1,3 @@
-"""
-Research Paper Summarizer AI Agent
-Core logic for processing and summarizing research papers using Groq LLM.
-"""
-
 import os
 from typing import Optional, List, Dict, Any, Callable
 from dataclasses import dataclass

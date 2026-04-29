@@ -1,8 +1,3 @@
-"""
-Research Paper Summarizer - Streamlit Application
-A professional AI agent for efficiently summarizing research papers using Groq LLM.
-"""
-
 import os
 import sys
 import secrets
@@ -27,18 +22,13 @@ TOKEN_STORE_PATH = Path(__file__).with_name("anonymous_usage.json")
 ANON_TOKEN_LIMIT = int(os.getenv("ANON_USER_TOKEN_LIMIT", "7000"))
 
 
-# When launched with `python app.py` or `uv run app.py`, hand off to
-# Streamlit's app runner so session state and UI context work correctly.
+
 if __name__ == "__main__" and not st_runtime.exists():
     from streamlit.web import cli as stcli
 
     sys.argv = ["streamlit", "run", str(Path(__file__).resolve()), *sys.argv[1:]]
     raise SystemExit(stcli.main())
 
-
-# ============================================================================
-# PAGE CONFIGURATION
-# ============================================================================
 
 st.set_page_config(
     page_title="Research Paper Summarizer",
@@ -47,7 +37,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Custom CSS for professional styling
+
 st.markdown("""
 <style>
     /* Main container styling */
@@ -153,9 +143,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# ============================================================================
-# SESSION STATE INITIALIZATION
-# ============================================================================
 
 def load_token_store() -> dict:
     """Load persisted token usage per anonymous user."""
@@ -285,9 +272,6 @@ def initialize_session_state():
 initialize_session_state()
 
 
-# ============================================================================
-# UTILITY FUNCTIONS
-# ============================================================================
 
 def save_to_history(paper_title: str, summary_type: str, summary: str):
     """Save analysis to session history."""
@@ -355,10 +339,6 @@ def safe_ask_question(question: str):
     return None
 
 
-# ============================================================================
-# HEADER AND NAVIGATION
-# ============================================================================
-
 col1, col2 = st.columns([3, 1])
 
 with col1:
@@ -371,9 +351,6 @@ with col1:
 
 
 
-# ============================================================================
-# MAIN INTERFACE
-# ============================================================================
 
 if not st.session_state.summarizer:
     st.subheader("Connect Groq API")
@@ -405,7 +382,7 @@ if not st.session_state.summarizer:
             st.rerun()
 
     st.error("""
-    ### ⚠️ API Key Not Found
+    ###  API Key Not Found
     
     Please set your Groq API key as an environment variable:
     ```bash
@@ -437,9 +414,7 @@ else:
         "📜 History"
     ])
     
-    # ========================================================================
-    # TAB 1: SUMMARIZE
-    # ========================================================================
+    
     with tab1:
         st.header("Summarize Research Paper")
         
@@ -646,9 +621,7 @@ else:
                         st.markdown('</div>', unsafe_allow_html=True)
                         st.session_state.processing = False
     
-    # ========================================================================
-    # TAB 2: DETAILED ANALYSIS
-    # ========================================================================
+   
     with tab2:
         st.header("Detailed Analysis")
         
@@ -725,9 +698,7 @@ else:
                     if metrics is not None:
                         st.json(metrics)
     
-    # ========================================================================
-    # TAB 3: Q&A
-    # ========================================================================
+    
     with tab3:
         st.header("Ask Questions About the Paper")
         
@@ -782,9 +753,7 @@ else:
                         except Exception as e:
                             st.error(f"❌ Error: {str(e)}")
     
-    # ========================================================================
-    # TAB 4: HISTORY
-    # ========================================================================
+   
     with tab4:
         st.header("Analysis History")
         
@@ -809,9 +778,7 @@ else:
                 st.rerun()
 
 
-# ============================================================================
-# SIDEBAR
-# ============================================================================
+
 
 with st.sidebar:
     anonymous_key = get_or_create_anonymous_key()
@@ -844,13 +811,6 @@ with st.sidebar:
     
     st.markdown("---")
     
-    # Footer
-   
-
-
-# ============================================================================
-# FOOTER
-# ============================================================================
 
 st.markdown("---")
 st.markdown(
